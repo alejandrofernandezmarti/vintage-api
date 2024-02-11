@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Imagen extends Model
 {
@@ -23,6 +24,11 @@ class Imagen extends Model
         'url_3',
         'url_4',
     ];
+
+    public function producto(): HasMany
+    {
+        return $this->hasMany(Producto::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

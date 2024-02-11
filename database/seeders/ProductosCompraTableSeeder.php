@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductosCompra;
+use App\Models\ProductoCompra;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,6 @@ class ProductosCompraTableSeeder extends Seeder
      */
     public function run()
     {
-        ProductosCompra::factory()->count(100)->create(); // Creates 10 productos-compra using the ProductosCompraFactory
+        ProductoCompra::factory()->count(100)->create(); // Creates 10 productos-compra using the ProductosCompraFactory
     }
 }
