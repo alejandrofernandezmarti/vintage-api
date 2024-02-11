@@ -10,6 +10,8 @@ class Medida extends Model
     use HasFactory;
 
     protected $table = 'medidas';
+    public $timestamps = false;
+
 
     /**
      * The attributes that are mass assignable.

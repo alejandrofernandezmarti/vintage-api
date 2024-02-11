@@ -9,6 +9,7 @@ class Talla extends Model
 {
     use HasFactory;
     protected $table = 'tallas';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
