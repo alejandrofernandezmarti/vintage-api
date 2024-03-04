@@ -26,6 +26,12 @@ class ProductoResource extends JsonResource
                 'ancho' => $this->medidas->ancho,
                 'manga' => $this->medidas->manga,
             ], // Suponiendo que existe una relación 'medidas'
+            'imagenes' => [
+                'url_1' => $this->imagen->url_1,
+                'url_2' => $this->imagen->url_2,
+                'url_3' => $this->imagen->url_3,
+                'url_4' => $this->imagen->url_4,
+            ],
             'estado' => $this->estado,
             'activo' => $this->activo,
             'vendido' => $this->vendido,

@@ -49,7 +49,7 @@ class Producto extends Model
         return $this->belongsTo(Talla::class, 'id_talla');
     }
 
-    public function medida(): BelongsTo
+    public function medidas(): BelongsTo
     {
         return $this->belongsTo(Medida::class, 'id_medidas');
     }
@@ -58,6 +58,11 @@ class Producto extends Model
     public function compras(): HasMany
     {
         return $this->hasMany(ProductoCompra::class, 'id_producto');
+    }
+
+    public function imagen()
+    {
+        return $this->hasOne(Imagen::class);
     }
 
     /**

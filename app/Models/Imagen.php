@@ -25,9 +25,9 @@ class Imagen extends Model
         'url_4',
     ];
 
-    public function producto(): HasMany
+    public function producto()
     {
-        return $this->hasMany(Producto::class);
+        return $this->belongsTo(Producto::class);
     }
 
     /**

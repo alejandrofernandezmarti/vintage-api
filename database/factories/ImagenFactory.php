@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Imagen;
+use App\Models\Producto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,7 @@ class ImagenFactory extends Factory
     public function definition()
     {
         return [
+            'producto_id' => Producto::factory(),
             'url_1' => $this->faker->imageUrl(),
             'url_2' => $this->faker->imageUrl(),
             'url_3' => $this->faker->imageUrl(),
