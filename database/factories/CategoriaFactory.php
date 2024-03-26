@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Categoria;
+use App\Models\Producto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Categoria>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Producto>
  */
 class CategoriaFactory extends Factory
 {

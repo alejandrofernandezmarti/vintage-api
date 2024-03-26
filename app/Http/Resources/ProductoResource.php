@@ -18,6 +18,7 @@ class ProductoResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'precio' => $this->precio,
+            'descuento' => $this->descuento,
             'marca' => $this->marca->nombre, // Suponiendo que existe una relación 'marca'
             'categoria' => $this->categoria->nombre, // Suponiendo que existe una relación 'categoria'
             'talla' => $this->talla->etiqueta, // Suponiendo que existe una relación 'talla'
@@ -31,6 +32,8 @@ class ProductoResource extends JsonResource
                 'url_2' => $this->imagen->url_2,
                 'url_3' => $this->imagen->url_3,
                 'url_4' => $this->imagen->url_4,
+                'url_5' => $this->imagen->url_5,
+                'url_6' => $this->imagen->url_6,
             ],
             'estado' => $this->estado,
             'activo' => $this->activo,

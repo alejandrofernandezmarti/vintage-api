@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
-            $table->enum('nombre',['sudadera','camiseta','camisa','chaleco','chaqueta','cazadora','pantalones','shorts','tops']);
-            $table->enum('tipo',['accesorios','tops','bottoms']);
+            $table->string('nombre');
+            $table->string('tipo');
+            $table->string('imagen');
         });
     }
 

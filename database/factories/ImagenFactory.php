@@ -31,6 +31,8 @@ class ImagenFactory extends Factory
             'url_2' => $this->faker->imageUrl(),
             'url_3' => $this->faker->imageUrl(),
             'url_4' => $this->faker->imageUrl(),
+            'url_5' => $this->faker->imageUrl(),
+            'url_6' => $this->faker->imageUrl(),
         ];
     }
 }

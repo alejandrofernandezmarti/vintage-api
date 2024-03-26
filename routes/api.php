@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,12 @@ use App\Http\Controllers\API\ProductosCompraController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(["middleware" => 'auth:sanctum'], function () {
+    Route::get('/user/compras', [CompraController::class, 'ordersByUser']);
+    Route::get('/user/getInfo', [UserController::class, 'getInfo']);
+});
+Route::post('/login', [LoginController::class, 'login']);
+
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
@@ -67,6 +74,8 @@ Route::post('/categorias', [CategoriaController::class, 'store']);
 Route::get('/categorias/{categoria}', [CategoriaController::class, 'show']);
 Route::put('/categorias/{categoria}', [CategoriaController::class, 'update']);
 Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy']);
+Route::get('/categoriasEspecificas', [CategoriaController::class, 'obtenerCategoriasEspecificas']);
+
 
 // Rutas para el controlador CompraController
 Route::get('/compras', [CompraController::class, 'index']);
@@ -77,10 +86,14 @@ Route::delete('/compras/{compra}', [CompraController::class, 'destroy']);
 
 // Rutas para el controlador ProductoController
 Route::get('/productos', [ProductoController::class, 'index']);
-Route::post('/productos', [ProductoController::class, 'store']);
+Route::post('/productoCreate', [ProductoController::class, 'store']);
 Route::get('/productos/{producto}', [ProductoController::class, 'show']);
 Route::put('/productos/{producto}', [ProductoController::class, 'update']);
 Route::delete('/productos/{producto}', [ProductoController::class, 'destroy']);
+Route::post('/productosFiltrados', [ProductoController::class, 'filtrar']);
+Route::get('/productosRand', [ProductoController::class, 'obtenerProductosAleatorios']);
+Route::get('/productos/categoria/{id}', [ProductoController::class, 'productosPorCategoria']);
+
 
 // Rutas para el controlador ProductosCompraController
 Route::get('/compras/{id_compra}/productos', [ProductosCompraController::class, 'index']);

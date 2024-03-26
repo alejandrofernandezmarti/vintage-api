@@ -19,6 +19,8 @@ class CompraResource extends JsonResource
             'fecha' => $this->fecha,
             'metodo_pago' => $this->metodo_pago,
             'direccion' => $this->direccion,
+            'estado' => $this->estado,
+            'email' => $this->email,
             'id_user' => $this->id_user,
             // Puedes agregar más campos aquí si lo deseas
         ];

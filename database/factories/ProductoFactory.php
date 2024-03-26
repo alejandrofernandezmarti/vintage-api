@@ -26,7 +26,8 @@ class ProductoFactory extends Factory
     {
         return [
             'nombre' => $this->faker->sentence(),
-            'precio' => $this->faker->randomFloat(2, 10, 100),
+            'precio' => $this->faker->randomFloat(2, 10, 70),
+            'descuento' => $this->faker->optional()->randomFloat(2, 70, 100),
             'id_marca' => \App\Models\Marca::all()->random()->id,
             'id_categoria' => \App\Models\Categoria::all()->random()->id,
             'id_talla' => \App\Models\Talla::all()->random()->id,

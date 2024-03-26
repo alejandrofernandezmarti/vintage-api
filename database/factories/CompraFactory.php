@@ -24,11 +24,14 @@ class CompraFactory extends Factory
      */
     public function definition()
     {
+        $user = \App\Models\User::inRandomOrder()->first();
         return [
             'fecha' => $this->faker->date(),
             'metodo_pago' => $this->faker->randomElement(['tarjeta', 'paypal', 'contrarrembolso']),
             'direccion' => $this->faker->address,
-            'id_user' => \App\Models\User::all()->random()->id,
+            'estado' => $this->faker->randomElement(['pendiente', 'completado', 'cancelado']),
+            'email' => $user->email,
+            'id_user' => $user->id,
         ];
     }
 }

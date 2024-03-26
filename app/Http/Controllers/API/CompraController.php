@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CompraResource;
 use App\Models\Compra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompraController extends Controller
 {
@@ -13,6 +14,19 @@ class CompraController extends Controller
     {
         $compras = Compra::all();
         return CompraResource::collection($compras);
+    }
+    public function ordersByUser(){
+        $user = Auth::user();
+        if ($user) {
+            // Obtener las compras del usuario
+            $compras = Compra::where('id_user', $user->id)->get();
+
+            // Retornar las compras del usuario en forma de recursos
+            return CompraResource::collection($compras);
+        } else {
+            // Retornar un mensaje de error si el usuario no está autenticado
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
     }
 
     // Mostrar una compra específica

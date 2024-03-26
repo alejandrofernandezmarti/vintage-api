@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('imagenes', function (Blueprint $table) {
             $table->id();
-            $table->string('url_1');
-            $table->string('url_2');
-            $table->string('url_3');
-            $table->string('url_4');
+            $table->longText('url_1');
+            $table->longText('url_2');
+            $table->longText('url_3');
+            $table->longText('url_4');
+            $table->longText('url_5');
+            $table->longText('url_6');
         });
     }
 

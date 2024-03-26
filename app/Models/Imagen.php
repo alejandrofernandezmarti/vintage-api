@@ -23,6 +23,8 @@ class Imagen extends Model
         'url_2',
         'url_3',
         'url_4',
+        'url_5',
+        'url_6',
     ];
 
     public function producto()

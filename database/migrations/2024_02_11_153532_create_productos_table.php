@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->float('precio');
+            $table->float('descuento')->nullable();
             $table->string('nombre');
             $table->foreignId('id_marca')->constrained('marcas');
             $table->foreignId('id_categoria')->constrained('categorias');

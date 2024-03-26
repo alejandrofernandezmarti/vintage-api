@@ -13,6 +13,13 @@ class ComprasTableSeeder extends Seeder
      */
     public function run()
     {
-        Compra::factory()->count(100)->create(); // Creates 10 compras using the CompraFactory
+        $users = \App\Models\User::all();
+
+        foreach ($users as $user) {
+            $numOrders = rand(1, 6);
+            for ($i = 0; $i < $numOrders; $i++) {
+                \App\Models\Compra::factory()->create(['id_user' => $user->id]);
+            }
+        }
     }
 }

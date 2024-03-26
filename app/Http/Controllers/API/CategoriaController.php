@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categoria;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -34,6 +35,15 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
         $categoria->update($request->all());
         return response()->json($categoria, 200);
+    }
+
+    public function obtenerCategoriasEspecificas()
+    {
+        // Obtener las categorías "Sudaderas", "Jerséis", "Pantalones" y "Cazadoras" de la base de datos
+        $categorias = Categoria::whereIn('nombre', ['Sudaderas', 'Jerseis', 'Pantalones', 'Chaquetas'])->get();
+
+        // Retornar las categorías como respuesta
+        return response()->json($categorias);
     }
 
     // Eliminar una categoría

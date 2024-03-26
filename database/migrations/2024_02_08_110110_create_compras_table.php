@@ -16,6 +16,8 @@ return new class extends Migration
             $table->date('fecha');
             $table->enum('metodo_pago',['tarjeta','paypal','contrarrembolso']);
             $table->string('direccion');
+            $table->string('estado');
+            $table->string('email');
             $table->foreignId('id_user')->constrained('users');
         });
     }
