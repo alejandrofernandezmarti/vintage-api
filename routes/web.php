@@ -20,3 +20,12 @@ Route::get('/', function () {
 
 Route::post('/productosCreate', [ProductoController::class,'store'])->name('productos.store');
 Route::get('/productos', [ProductoController::class,'index'])->name('productos.index');
+
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/checkout', [\App\Http\Controllers\StripeController::class,'newOrder'])->name('checkout');
+Route::post('/create-order', [\App\Http\Controllers\StripeController::class,'createOrder'])->name('create.order');

@@ -21,8 +21,13 @@ class CompraResource extends JsonResource
             'direccion' => $this->direccion,
             'estado' => $this->estado,
             'email' => $this->email,
+            'importe' => $this->importe,
+            'ciudad' => $this->ciudad,
+            'provincia' => $this->provincia,
+            'codPostal' => $this->codPostal,
+            'telefono' => $this->telefono,
+            'nombre' => $this->nombre,
             'id_user' => $this->id_user,
-            // Puedes agregar más campos aquí si lo deseas
         ];
     }
 }

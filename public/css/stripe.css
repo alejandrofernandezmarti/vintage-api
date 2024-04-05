@@ -1,0 +1,108 @@
+.StripeElement {
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+
+    width: 100%;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+.final{
+    font-size: 22px;
+}
+.borde{
+    border-bottom: 1px dashed white;
+    width: 73%;
+    align-items: center;
+    margin-left: 7%;
+}
+.final-price{
+    color: white;
+}
+.cart-check{
+    background-color: #333333;
+    min-height: 100vh;
+    padding-left: 5vh;
+}
+.checkout-object{
+    padding-bottom: 1.5%;
+    padding-top: 1.5%;
+    color: white;
+    border-bottom: 1px solid white;
+}
+.img-carrito-check{
+    max-width: 18% !important;
+    aspect-ratio: 19/16;
+    object-fit: cover;
+}
+@media screen and (max-width: 667px){
+    .view{
+        padding-left: 10% !important;
+        padding-right: 10%;
+    }
+    .img-carrito-check{
+        max-width: 30%;
+    }
+}
+@media screen and (max-width: 1200px){
+    .img-carrito-check{
+        max-width: 30%;
+    }
+    .view{
+        padding-left: 5% !important;
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+label {
+    display: block;
+    font-weight: bold;
+}
+input[type="text"],
+input[type="email"],
+select,
+input[type="tel"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 0.5rem 1rem;
+    background-color: #2f2f2f;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    width: 100%;
+}
+button:hover {
+    background-color: #565656;
+}
+/*    --------------- */
+
+
+
+
+
+
+

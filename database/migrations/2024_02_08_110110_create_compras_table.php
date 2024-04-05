@@ -14,11 +14,17 @@ return new class extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->enum('metodo_pago',['tarjeta','paypal','contrarrembolso']);
-            $table->string('direccion');
             $table->string('estado');
             $table->string('email');
-            $table->foreignId('id_user')->constrained('users');
+            $table->float('importe');
+            $table->string('direccion');
+            $table->string('ciudad');
+            $table->string('provincia');
+            $table->bigInteger('codPostal');
+            $table->bigInteger('telefono');
+            $table->string('nombre');
+            $table->enum('metodo_pago',['tarjeta','paypal','contrarrembolso']);
+            $table->foreignId('id_user')->nullable()->constrained('users');
         });
     }
 

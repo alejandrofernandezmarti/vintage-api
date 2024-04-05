@@ -27,10 +27,16 @@ class CompraFactory extends Factory
         $user = \App\Models\User::inRandomOrder()->first();
         return [
             'fecha' => $this->faker->date(),
-            'metodo_pago' => $this->faker->randomElement(['tarjeta', 'paypal', 'contrarrembolso']),
-            'direccion' => $this->faker->address,
             'estado' => $this->faker->randomElement(['pendiente', 'completado', 'cancelado']),
             'email' => $user->email,
+            'importe' => $this->faker->randomFloat(2, 200, 1200),
+            'direccion' => $this->faker->address,
+            'ciudad' => $this->faker->city,
+            'provincia' => $this->faker->state,
+            'codPostal' => $this->faker->randomNumber(5),
+            'telefono' => $this->faker->randomNumber(9),
+            'nombre' => $this->faker->name,
+            'metodo_pago' => $this->faker->randomElement(['tarjeta', 'paypal', 'contrarrembolso']),
             'id_user' => $user->id,
         ];
     }
