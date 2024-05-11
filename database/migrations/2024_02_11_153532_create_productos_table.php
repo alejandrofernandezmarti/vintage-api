@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->float('precio_ud');
-            $table->float('precio_total');
-            $table->float('cantidad');
+            $table->integer('cantidad');
             $table->string('nombre');
             $table->longText('descripcion');
             $table->foreignId('id_categoria')->constrained('categorias');

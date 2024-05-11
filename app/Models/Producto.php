@@ -26,6 +26,7 @@ class Producto extends Model
         'precio',
         'nombre',
         'id_categoria',
+        'cantidad',
         'tipo',
         'estado',
         'activo',

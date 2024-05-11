@@ -24,16 +24,20 @@ class ProductoFactory extends Factory
      */
     public function definition()
     {
+        $tipo = $this->faker->randomElement(['Box', 'Selected']);
+        $cantidad = $tipo === 'Box' ? 0 : $this->faker->randomElement([10, 20, 30, 50, 70, 100]);
+
         return [
             'nombre' => $this->faker->sentence(),
-            'precio_ud' => $this->faker->randomFloat(2, 21, 50),
-            'precio_total' => $this->faker->randomFloat(2, 100, 150),
-            'cantidad' => $this->faker->randomNumber( 2),
+            'precio_ud' => $this->faker->randomFloat(2, 4, 30),
+            'cantidad' => $cantidad,
             'descripcion' => $this->faker->paragraph(),
             'id_categoria' => \App\Models\Categoria::all()->random()->id,
-            'estado' => $this->faker->randomElement(['Grado A','Grado B','Calidad premium']),
+            'estado' => $this->faker->randomElement(['Grado A', 'Grado B', 'Calidad premium']),
             'activo' => $this->faker->boolean(10),
             'vendido' => $this->faker->boolean(0.1),
+            'tipo' => $tipo,
         ];
     }
+
 }
