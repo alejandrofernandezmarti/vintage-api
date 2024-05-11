@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Medida extends Model
+class ImagenProducto extends Model
 {
     use HasFactory;
-
-    protected $table = 'medidas';
+    protected $table = 'imagenes_product';
     public $timestamps = false;
 
 
@@ -20,14 +19,17 @@ class Medida extends Model
      * @var array
      */
     protected $fillable = [
-        'alto',
-        'ancho',
-        'manga',
+        'url_1',
+        'url_2',
+        'url_3',
+        'url_4',
+        'url_5',
+        'url_6',
     ];
 
-    public function productos(): HasMany
+    public function producto()
     {
-        return $this->hasMany(Producto::class, 'id_medidas');
+        return $this->belongsTo(Producto::class);
     }
 
     /**

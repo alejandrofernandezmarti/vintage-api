@@ -4,17 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductoResource;
+use App\Models\Box;
 use App\Models\ImagenProducto;
-use App\Models\Medida;
 use App\Models\Producto;
-use App\Models\Talla;
 use Illuminate\Http\Request;
 
-class ProductoController extends Controller
+class BoxController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Box::all();
         return ProductoResource::collection($productos);
     }
 

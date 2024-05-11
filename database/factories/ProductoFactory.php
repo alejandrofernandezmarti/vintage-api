@@ -26,13 +26,12 @@ class ProductoFactory extends Factory
     {
         return [
             'nombre' => $this->faker->sentence(),
-            'precio' => $this->faker->randomFloat(2, 10, 70),
-            'descuento' => $this->faker->optional()->randomFloat(2, 70, 100),
-            'id_marca' => \App\Models\Marca::all()->random()->id,
+            'precio_ud' => $this->faker->randomFloat(2, 21, 50),
+            'precio_total' => $this->faker->randomFloat(2, 100, 150),
+            'cantidad' => $this->faker->randomNumber( 2),
+            'descripcion' => $this->faker->paragraph(),
             'id_categoria' => \App\Models\Categoria::all()->random()->id,
-            'id_talla' => \App\Models\Talla::all()->random()->id,
-            'id_medidas' => \App\Models\Medida::all()->random()->id,
-            'estado' => $this->faker->randomElement(['nuevo', 'muy bien', 'bien', 'algun defecto', 'malo']),
+            'estado' => $this->faker->randomElement(['Grado A','Grado B','Calidad premium']),
             'activo' => $this->faker->boolean(10),
             'vendido' => $this->faker->boolean(0.1),
         ];

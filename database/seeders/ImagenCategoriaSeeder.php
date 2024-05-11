@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ImagenCategoria;
+use App\Models\ImagenBox;
 use Illuminate\Database\Seeder;
 
 class ImagenCategoriaSeeder extends Seeder
@@ -14,6 +14,6 @@ class ImagenCategoriaSeeder extends Seeder
      */
     public function run()
     {
-        ImagenCategoria::factory()->count(10)->create();
+        ImagenBox::factory()->count(10)->create();
     }
 }

@@ -2,21 +2,21 @@
 
 namespace Database\Factories;
 
-use App\Models\Imagen;
+use App\Models\ImagenProducto;
 use App\Models\Producto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Imagen>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ImagenProducto>
  */
-class ImagenFactory extends Factory
+class ImagenProductoFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    protected $model = Imagen::class;
+    protected $model = ImagenProducto::class;
 
     /**
      * Define the model's default state.

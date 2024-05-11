@@ -14,17 +14,16 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->float('precio');
-            $table->float('descuento')->nullable();
+            $table->float('precio_ud');
+            $table->float('precio_total');
+            $table->float('cantidad');
             $table->string('nombre');
-            $table->foreignId('id_marca')->constrained('marcas');
+            $table->longText('descripcion');
             $table->foreignId('id_categoria')->constrained('categorias');
-            $table->foreignId('id_talla')->constrained('tallas');
-            $table->foreignId('id_medidas')->constrained('medidas');
-            $table->enum('estado',['nuevo','muy bien','bien','algun defecto','malo']);
+            $table->enum('estado',['Grado A','Grado B','Calidad premium']);
+            $table->enum('tipo',['Box','Selected']);
             $table->boolean('activo');
             $table->boolean('vendido');
-
         });
     }
 

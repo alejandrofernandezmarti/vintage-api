@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductoResource;
-use App\Models\Imagen;
+use App\Models\ImagenProducto;
 use App\Models\Medida;
 use App\Models\Producto;
 use App\Models\Talla;
@@ -53,7 +53,7 @@ class ProductoController extends Controller
         $producto->save();
 
         // Guardar imágenes
-        $imagen = new Imagen();
+        $imagen = new ImagenProducto();
         $imagen->url_1 = $validatedData['imagenes.url_1'];
         $imagen->url_2 = $validatedData['imagenes.url_2'];
         $imagen->url_3 = $validatedData['imagenes.url_3'];

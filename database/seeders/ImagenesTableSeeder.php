@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Imagen;
+use App\Models\ImagenProducto;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,6 @@ class ImagenesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Imagen::factory()->count(10)->create();
+        ImagenProducto::factory()->count(10)->create();
     }
 }

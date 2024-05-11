@@ -25,34 +25,21 @@ class Producto extends Model
     protected $fillable = [
         'precio',
         'nombre',
-        'id_marca',
         'id_categoria',
-        'id_talla',
-        'id_medidas',
+        'tipo',
         'estado',
         'activo',
         'vendido',
     ];
 
-    public function marca(): BelongsTo
-    {
-        return $this->belongsTo(Marca::class, 'id_marca');
-    }
+
 
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'id_categoria');
     }
 
-    public function talla(): BelongsTo
-    {
-        return $this->belongsTo(Talla::class, 'id_talla');
-    }
 
-    public function medidas(): BelongsTo
-    {
-        return $this->belongsTo(Medida::class, 'id_medidas');
-    }
 
     // Suponiendo que un producto puede estar en varias compras
     public function compras(): HasMany
@@ -62,7 +49,7 @@ class Producto extends Model
 
     public function imagen()
     {
-        return $this->hasOne(Imagen::class);
+        return $this->hasOne(ImagenProducto::class);
     }
 
     /**

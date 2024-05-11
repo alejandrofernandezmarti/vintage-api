@@ -13,7 +13,7 @@ class AddProductoIdToImagenesTable extends Migration
      */
     public function up()
     {
-        Schema::table('imagenes', function (Blueprint $table) {
+        Schema::table('imagenes_product', function (Blueprint $table) {
             $table->unsignedBigInteger('producto_id')->after('id')->nullable();
             $table->foreign('producto_id')->references('id')->on('productos');
         });
@@ -26,7 +26,7 @@ class AddProductoIdToImagenesTable extends Migration
      */
     public function down()
     {
-        Schema::table('imagenes', function (Blueprint $table) {
+        Schema::table('imagenes_product', function (Blueprint $table) {
             $table->dropForeign(['producto_id']);
             $table->dropColumn('producto_id');
         });

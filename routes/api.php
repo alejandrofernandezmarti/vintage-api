@@ -40,19 +40,6 @@ Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
-// Rutas para el controlador MarcaController
-Route::get('/marcas', [MarcaController::class, 'index']);
-Route::post('/marcas', [MarcaController::class, 'store']);
-Route::get('/marcas/{marca}', [MarcaController::class, 'show']);
-Route::put('/marcas/{marca}', [MarcaController::class, 'update']);
-Route::delete('/marcas/{marca}', [MarcaController::class, 'destroy']);
-
-// Rutas para el controlador TallaController
-Route::get('/tallas', [TallasController::class, 'index']);
-Route::post('/tallas', [TallasController::class, 'store']);
-Route::get('/tallas/{talla}', [TallasController::class, 'show']);
-Route::put('/tallas/{talla}', [TallasController::class, 'update']);
-Route::delete('/tallas/{talla}', [TallasController::class, 'destroy']);
 
 // Rutas para el controlador ImagenController
 Route::get('/imagenes', [ImagenController::class, 'index']);
@@ -61,12 +48,6 @@ Route::get('/imagenes/{imagen}', [ImagenController::class, 'show']);
 Route::put('/imagenes/{imagen}', [ImagenController::class, 'update']);
 Route::delete('/imagenes/{imagen}', [ImagenController::class, 'destroy']);
 
-// Rutas para el controlador MedidaController
-Route::get('/medidas', [MedidaController::class, 'index']);
-Route::post('/medidas', [MedidaController::class, 'store']);
-Route::get('/medidas/{medida}', [MedidaController::class, 'show']);
-Route::put('/medidas/{medida}', [MedidaController::class, 'update']);
-Route::delete('/medidas/{medida}', [MedidaController::class, 'destroy']);
 
 // Rutas para el controlador CategoriaController
 Route::get('/categorias', [CategoriaController::class, 'index']);
