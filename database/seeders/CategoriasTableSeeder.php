@@ -18,43 +18,51 @@ class CategoriasTableSeeder extends Seeder
             'nombre' => 'Sudaderas',
             'tipo' => 'Tops',
             'imagen' => 'Sudaderas.png',
+            'precio_env' => 6,
         ]);
         Categoria::create([
             'nombre' => 'Jerseis',
             'tipo' => 'Tops',
             'imagen' => 'Jerseis.png',
+            'precio_env' => 6,
         ]);
 
         Categoria::create([
             'nombre' => 'Camisetas',
             'tipo' => 'Tops',
             'imagen' => 'Camisetas.png',
+            'precio_env' => 4,
         ]);
 
         Categoria::create([
             'nombre' => 'Camisas',
             'tipo' => 'Tops',
             'imagen' => 'Camisas.png',
+            'precio_env' => 4,
         ]);
         Categoria::create([
             'nombre' => 'Chaquetas',
             'tipo' => 'Tops',
             'imagen' => 'Chaquetas.png',
+            'precio_env' => 6,
         ]);
         Categoria::create([
             'nombre' => 'Cazadoras',
             'tipo' => 'Tops',
             'imagen' => 'Cazadoras.png',
+            'precio_env' => 8,
         ]);
         Categoria::create([
             'nombre' => 'Pantalones',
             'tipo' => 'Bottoms',
             'imagen' => 'Pantalones.png',
+            'precio_env' => 5,
         ]);
         Categoria::create([
             'nombre' => 'Shorts',
             'tipo' => 'Bottoms',
             'imagen' => 'Shorts.png',
+            'precio_env' => 4,
         ]);
 
     }

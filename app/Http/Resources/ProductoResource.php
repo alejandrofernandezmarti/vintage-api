@@ -17,16 +17,11 @@ class ProductoResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'precio' => $this->precio,
-            'descuento' => $this->descuento,
-            'marca' => $this->marca->nombre, // Suponiendo que existe una relación 'marca'
-            'categoria' => $this->categoria->nombre, // Suponiendo que existe una relación 'categoria'
-            'talla' => $this->talla->etiqueta, // Suponiendo que existe una relación 'talla'
-            'medidas' => [
-                'alto' => $this->medidas->alto,
-                'ancho' => $this->medidas->ancho,
-                'manga' => $this->medidas->manga,
-            ], // Suponiendo que existe una relación 'medidas'
+            'precio_ud' => $this->precio_ud,
+            'cantidad' => $this->cantidad,
+            'categoria' => $this->categoria->nombre,
+            'descripcion' => $this->descripcion,
+            'tipo' => $this->tipo,
             'imagenes' => [
                 'url_1' => $this->imagen->url_1,
                 'url_2' => $this->imagen->url_2,
@@ -38,7 +33,6 @@ class ProductoResource extends JsonResource
             'estado' => $this->estado,
             'activo' => $this->activo,
             'vendido' => $this->vendido,
-            // Puedes agregar más campos aquí si lo deseas
         ];
     }
 }

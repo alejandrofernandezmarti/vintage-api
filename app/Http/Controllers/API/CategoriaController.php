@@ -39,10 +39,7 @@ class CategoriaController extends Controller
 
     public function obtenerCategoriasEspecificas()
     {
-        // Obtener las categorías "Sudaderas", "Jerséis", "Pantalones" y "Cazadoras" de la base de datos
         $categorias = Categoria::whereIn('nombre', ['Sudaderas', 'Jerseis', 'Pantalones', 'Chaquetas'])->get();
-
-        // Retornar las categorías como respuesta
         return response()->json($categorias);
     }
 

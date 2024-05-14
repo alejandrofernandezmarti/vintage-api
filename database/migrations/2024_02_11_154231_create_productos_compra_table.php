@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('productos_compra', function (Blueprint $table) {
             $table->id();
+            $table->integer('cantidad');
+            $table->float('precio_ud');
             $table->foreignId('id_producto')->constrained('productos');
             $table->foreignId('id_cliente')->constrained('users');
 

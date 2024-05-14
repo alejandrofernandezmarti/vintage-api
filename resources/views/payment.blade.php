@@ -97,10 +97,10 @@
                 <img class="col-3 img-carrito-check" src="<?php echo $producto->imagen->url_1; ?>" alt="Producto">
                 <div class="col-9">
                     <p class="carrito-text"><?php echo $producto['nombre']; ?></p>
-                    <p class="carrito-text"><?php echo $producto['precio']; ?> EUR</p>
+                    <p class="carrito-text"><?php echo $producto['precio_ud']; ?> EUR</p>
 
                     <div class="row">
-                        <p class="carrito-text col-6">Talla: <?php echo $producto->talla->real; ?></p>
+                        <p class="carrito-text col-6">Talla: <?php echo $producto->cantidad; ?></p>
                     </div>
                 </div>
             </div>
