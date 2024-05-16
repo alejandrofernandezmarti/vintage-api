@@ -27,5 +27,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/checkout', [\App\Http\Controllers\StripeController::class,'newOrder'])->name('checkout');
+Route::post('/checkout', [\App\Http\Controllers\StripeController::class,'newOrder'])->name('checkout');
 Route::post('/create-order', [\App\Http\Controllers\StripeController::class,'createOrder'])->name('create.order');

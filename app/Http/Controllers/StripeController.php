@@ -14,6 +14,25 @@ class StripeController extends Controller
         return view('checkout');
     }
     public function newOrder(Request $request){
+
+       /*  $productosRequest = $request->productos;
+
+        $productos = [];
+        foreach ($productosRequest as $productoJson) {
+
+            $productoArray = json_decode($productoJson, true);
+            $productoId = $productoArray['id'];
+
+            $producto = Producto::findOrFail($productoId);
+            $producto->cantidad = $productoArray['cantidad'];
+
+            $productos[] = [
+                'producto' => $producto,
+            ];
+        }
+        dd($productos);  */
+        $productos = array_map('json_decode', $request->productos);
+        $precios = $this->calculadoraPrecios($productos);
         $provincias = [
             "Álava",
             "Albacete",
@@ -68,10 +87,35 @@ class StripeController extends Controller
             "Zamora",
             "Zaragoza"
         ];
-        $productos = Producto::inRandomOrder()->limit(5)->get();
-        return view('payment',compact('provincias','productos'));
+        return view('payment',compact('provincias','productos','precios'));
     }
 
+    public function calculadoraPrecios($productos){
+        $precioEnvio = 0;
+        $precioCarrito = $this->calcularPrecioCarrito($productos);
+        if ($precioCarrito >= 400) {
+            $precioEnvio = 0;
+        } else {
+            foreach ($productos as $item) {
+                $precioEnvio += $item->precio_env * ($item->cantidad / 10);
+            }
+            $precioEnvio = number_format($precioEnvio, 2);
+        }
+        $precioTotal = number_format($precioEnvio + $precioCarrito, 2);
+        return [
+            'precioProductos' => $precioCarrito,
+            'precioEnvio' => $precioEnvio,
+            'precioTotal' => $precioTotal
+        ];
+    }
+    public function calcularPrecioCarrito($carrito)
+    {
+        $precioTotal = 0;
+        foreach ($carrito as $item) {
+            $precioTotal += $item->precio_ud * $item->cantidad;
+        }
+        return number_format($precioTotal, 2);
+    }
     public function createOrder(Request $request)
     {
 

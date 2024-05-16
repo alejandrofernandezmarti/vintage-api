@@ -29,7 +29,7 @@ class ProductoFactory extends Factory
 
         return [
             'nombre' => $this->faker->sentence(),
-            'precio_ud' => $this->faker->randomFloat(2, 4, 30),
+            'precio_ud' => $this->faker->randomFloat(2, 3, 18),
             'cantidad' => $cantidad,
             'descripcion' => $this->faker->paragraph(),
             'id_categoria' => \App\Models\Categoria::all()->random()->id,

@@ -18,13 +18,13 @@ class CategoriasTableSeeder extends Seeder
             'nombre' => 'Sudaderas',
             'tipo' => 'Tops',
             'imagen' => 'Sudaderas.png',
-            'precio_env' => 6,
+            'precio_env' => 8,
         ]);
         Categoria::create([
             'nombre' => 'Jerseis',
             'tipo' => 'Tops',
             'imagen' => 'Jerseis.png',
-            'precio_env' => 6,
+            'precio_env' => 9,
         ]);
 
         Categoria::create([
@@ -56,13 +56,13 @@ class CategoriasTableSeeder extends Seeder
             'nombre' => 'Pantalones',
             'tipo' => 'Bottoms',
             'imagen' => 'Pantalones.png',
-            'precio_env' => 5,
+            'precio_env' => 4.5,
         ]);
         Categoria::create([
             'nombre' => 'Shorts',
             'tipo' => 'Bottoms',
             'imagen' => 'Shorts.png',
-            'precio_env' => 4,
+            'precio_env' => 3.5,
         ]);
 
     }
