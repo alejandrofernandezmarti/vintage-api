@@ -1,14 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <script src="https://js.stripe.com/v3/"></script>
-
     <div class="row">
         <div class="col-0 col-lg-0 col-xl-2"></div>
 
         <div class="col-12 col-md-11 col-lg-6 col-xl-5 pt-5 mb-5 view">
             <div class="order-form">
 
-                <form action="{{ route('create.order') }}" method="POST">
+                <form action="{{ route('create.order') }}" method="POST" id="payment-form">
                     @csrf
                     <h3>Información de contacto</h3>
                     <div class="form-group mt-4">
@@ -70,12 +69,12 @@
                                     <!-- Used to display form errors. -->
                                     <div id="card-errors" role="alert"></div>
 
-                                    <div >
-                                        <?php foreach ($productos as $index => $producto): ?>
-                                        <input type="hidden" name="ids[]" value="{{$producto->id }}" >
-                                        <?php endforeach; ?>
+                                    <div  id="payment-form">
+                                        @foreach($productos as $index => $producto)
+                                            <input type="hidden" name="productos[]" value="{{ json_encode($producto) }}">
+                                        @endforeach
 
-                                        <button class="mt-3">Confirmar Pedido</button>
+                                        <button class="mt-3" id="btnPay" type="submit">Confirmar Pedido</button>
                                     </div>
                                     {{ csrf_field() }}
                                 </div>

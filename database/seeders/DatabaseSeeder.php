@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(10)->create();
         $this->call(CategoriasTableSeeder::class);
         Compra::factory()->count(100)->create();
-        ImagenProducto::factory()->count(20)->create();
+        ImagenProducto::factory()->count(50)->create();
         ProductoCompra::factory()->count(300)->create();
 
     }

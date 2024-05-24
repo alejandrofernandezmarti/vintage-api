@@ -64,6 +64,18 @@ class CategoriasTableSeeder extends Seeder
             'imagen' => 'Shorts.png',
             'precio_env' => 3.5,
         ]);
+        Categoria::create([
+            'nombre' => 'Gorras',
+            'tipo' => 'Accesorios',
+            'imagen' => 'Gorras.png',
+            'precio_env' => 2,
+        ]);
+        Categoria::create([
+            'nombre' => 'Bolsos',
+            'tipo' => 'Accesorios',
+            'imagen' => 'Bolsos.png',
+            'precio_env' => 4,
+        ]);
 
     }
 }

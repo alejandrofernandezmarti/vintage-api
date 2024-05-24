@@ -23,7 +23,7 @@ return new class extends Migration
             $table->bigInteger('codPostal');
             $table->bigInteger('telefono');
             $table->string('nombre');
-            $table->enum('metodo_pago',['tarjeta','paypal','contrarrembolso']);
+            $table->string("payment_id")->default('0');
             $table->foreignId('id_user')->nullable()->constrained('users');
         });
     }

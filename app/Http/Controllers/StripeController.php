@@ -2,35 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailContacto;
+use App\Mail\NewOrder;
+use App\Models\Compra;
+use App\Models\Pago;
 use App\Models\Producto;
+use App\Models\ProductoCompra;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Omnipay\Omnipay;
 
 class StripeController extends Controller
 {
+    public static $STRIPE_CURRENCY = "EUR";
     public function checkout()
     {
         return view('checkout');
     }
     public function newOrder(Request $request){
-
-       /*  $productosRequest = $request->productos;
-
-        $productos = [];
-        foreach ($productosRequest as $productoJson) {
-
-            $productoArray = json_decode($productoJson, true);
-            $productoId = $productoArray['id'];
-
-            $producto = Producto::findOrFail($productoId);
-            $producto->cantidad = $productoArray['cantidad'];
-
-            $productos[] = [
-                'producto' => $producto,
-            ];
-        }
-        dd($productos);  */
         $productos = array_map('json_decode', $request->productos);
         $precios = $this->calculadoraPrecios($productos);
         $provincias = [
@@ -90,45 +80,110 @@ class StripeController extends Controller
         return view('payment',compact('provincias','productos','precios'));
     }
 
-    public function calculadoraPrecios($productos){
-        $precioEnvio = 0;
-        $precioCarrito = $this->calcularPrecioCarrito($productos);
-        if ($precioCarrito >= 400) {
-            $precioEnvio = 0;
-        } else {
-            foreach ($productos as $item) {
-                $precioEnvio += $item->precio_env * ($item->cantidad / 10);
-            }
-            $precioEnvio = number_format($precioEnvio, 2);
-        }
-        $precioTotal = number_format($precioEnvio + $precioCarrito, 2);
+
+    public function calculadoraPrecios($productos)
+    {
+        $precioCarrito = (float)$this->calcularPrecioCarrito($productos);
+        $precioEnvio = (float)$this->calcularEnvio($productos);
+        $precioTotal = $precioEnvio + $precioCarrito;
+
         return [
-            'precioProductos' => $precioCarrito,
-            'precioEnvio' => $precioEnvio,
-            'precioTotal' => $precioTotal
+            'precioProductos' => number_format($precioCarrito, 2, '.', ''),
+            'precioEnvio' => number_format($precioEnvio, 2, '.', ''),
+            'precioTotal' => number_format($precioTotal, 2, '.', '')
         ];
+    }
+
+    public function calcularEnvio($productos){
+        $total = $this->calcularPrecioCarrito($productos);
+        $precioEnvio = 0;
+        if ($total >= 400){
+            return 0;
+        }else {
+            foreach ($productos as $item) {
+                $precio_env = Producto::find($item->id)->categoria->precio_env;
+                $precioEnvio += $precio_env * ($item->cantidad / 10);
+            }
+            $precioEnvio = number_format($precioEnvio, 2, '.', '');
+        }
+        return $precioEnvio;
     }
     public function calcularPrecioCarrito($carrito)
     {
         $precioTotal = 0;
+
         foreach ($carrito as $item) {
-            $precioTotal += $item->precio_ud * $item->cantidad;
+            $precioUnitario = Producto::find($item->id)->precio_ud;
+            $cantidad = $item->cantidad;
+            if ($item->tipo == 'Box'){
+                switch (true) {
+                    case ($cantidad >= 100):
+                        $precioUnitario *= 0.80; // 20% de descuento
+                        break;
+                    case ($cantidad >= 70):
+                        $precioUnitario *= 0.84; // 16% de descuento
+                        break;
+                    case ($cantidad >= 50):
+                        $precioUnitario *= 0.88; // 12% de descuento
+                        break;
+                    case ($cantidad >= 30):
+                        $precioUnitario *= 0.92; // 8% de descuento
+                        break;
+                    case ($cantidad >= 20):
+                        $precioUnitario *= 0.96; // 4% de descuento
+                        break;
+                    case ($cantidad <= 10):
+                    default:
+                        break;
+                }
+            }
+            $precioUnitario = number_format($precioUnitario,2, '.', '');
+            $precioTotal += $precioUnitario * $cantidad;
         }
-        return number_format($precioTotal, 2);
+        return number_format($precioTotal, 2, '.', '');
     }
+    public function precioProducto($producto){
+        $precioUnitario = Producto::find($producto->id)->precio_ud;
+        $cantidad = $producto->cantidad;
+
+        if ($producto->tipo == 'Box'){
+            switch (true) {
+                case ($cantidad >= 100):
+                    $precioUnitario *= 0.80; // 20% de descuento
+                    break;
+                case ($cantidad >= 70):
+                    $precioUnitario *= 0.84; // 16% de descuento
+                    break;
+                case ($cantidad >= 50):
+                    $precioUnitario *= 0.88; // 12% de descuento
+                    break;
+                case ($cantidad >= 30):
+                    $precioUnitario *= 0.92; // 8% de descuento
+                    break;
+                case ($cantidad >= 20):
+                    $precioUnitario *= 0.96; // 4% de descuento
+                    break;
+                case ($cantidad <= 10):
+                default:
+                    break;
+            }
+        }
+        return number_format($precioUnitario, 2, '.', '');
+    }
+
     public function createOrder(Request $request)
     {
 
-
-        if ($request->input('_token')){
+        if ($request->input('stripeToken')){
 
             $gateway = Omnipay::create('Stripe');
             $gateway->setApiKey(env('STRIPE_SECRET'));
 
-            $token = $request->input('_token');
-
+            $token = $request->input('stripeToken');
+            $productos = array_map('json_decode', $request->productos);
+            $total = $this->calculadoraPrecios($productos);
             $response = $gateway->purchase([
-                'amount' => Producto::whereIn('id', $request->ids)->sum('precio') /* sumar el envio*/,
+                'amount' => $total['precioTotal'],
                 'currency' => 'EUR',
                 'token' => $token
             ])->send();
@@ -137,62 +192,61 @@ class StripeController extends Controller
                 // payment was successful: insert transaction data into the database
                 $arr_payment_data = $response->getData();
 
-                $isPaymentExist = Payment::where('payment_id', $arr_payment_data['id'])->first();
+                $isPaymentExist = Pago::where('payment_id', $arr_payment_data['id'])->first();
 
-               /*  if (!$isPaymentExist) {
-                    $payment = new Payment;
+                if (!$isPaymentExist) {
+                    $payment = new Pago;
                     $payment->payment_id = $arr_payment_data['id'];
                     $payment->payer_email = $request->email;
                     $payment->amount = $arr_payment_data['amount'] / 100;
                     $payment->currency = self::$STRIPE_CURRENCY;
                     $payment->payment_status = $arr_payment_data['status'];
                     $payment->save();
-                }  */
+                }
 
                 //ID PAGO: $arr_payment_data['id']
 
                 //CREAR PEDIDO
-                $order = new Order();
+                $order = new Compra();
                 $order->payment_id = $arr_payment_data['id'];
-                $order->name = $request->name;
-                $order->surnames = $request->surnames;
-                $order->address = $request->address;
-                $order->province = $request->province;
-                $order->town = $request->town;
-                $order->phone = $request->phone;
+                $order->nombre = $request->name . ' ' . $request->surname;
+                $order->direccion = $request->address;
+                $order->provincia = $request->province;
+                $order->ciudad = $request->city;
+                $order->telefono = $request->phone;
                 $order->email = $request->email;
-                $order->order_notes = $request->order_notes;
-                $order->coupon = $descuento != null ? $descuento : null;
+                $order->codPostal = $request->postalCode;
+                $order->estado = 'realizada';
+                $order->fecha = now();
+                $order->importe = $total['precioTotal'];
+                $order->id_user = 1; // Asume que el usuario está autenticado y quieres guardar su id
                 $order->save();
 
                 //CREAR LINEAS DEL PEDIDO
                 $orders_lines = [];
-                foreach (\Cart::getContent() as $pr){
+                foreach ($productos as $pr){
 
-                    $order_line = new OrderLines();
-                    $order_line->order_id = $order->id;
-                    $order_line->product_id = explode('-', $pr->id)[0];
-                    $order_line->price = $pr->price;
-                    $order_line->quantity = $pr->quantity;
-
-                    //ATRIBUTOS
-                    $order_line->tela1 = $pr->attributes->tela1;
-                    $order_line->tela2 = $pr->attributes->tela2 == "null" ? null : $pr->attributes->tela2;
-                    $order_line->sex = $pr->attributes->quantity;
-                    $order_line->name = $pr->attributes->name == "null" ? null : $pr->attributes->name;
-
+                    $order_line = new ProductoCompra();
+                    $order_line->cantidad = $pr->cantidad;
+                    $order_line->precio_ud = $this->precioProducto($pr);
+                    $order_line->id_producto = $pr->id;
+                    $order_line->id_cliente = 1;
+                    $order_line->id_compra = $order->id;
                     $order_line->save();
-                    $aux['quantity'] = $pr->quantity;
-                    $aux['name'] = $pr->name;
-                    $aux['total'] = $pr->price * $pr->quantity;
-                    array_push($orders_lines, $aux);
+
+                    if ($pr->tipo === 'Selected'){
+                        $product = Producto::find($pr->id);
+                        $product->vendido = true;
+                        $product->save();
+                    }
+                    $order_line->nombre = $pr->nombre;
+                    $orders_lines[] = $order_line;
                 }
 
-                // ENVIAR CORREO DE CONFIRMACIÓN DE PEDIDO
-                Mail::to($order->email)->send(new NewOrder($order, $orders_lines));
-
+                Mail::to($order->email)->send(new NewOrder($order,$orders_lines));
+/*
                 if ($_SERVER['HTTP_HOST'] != 'repuntet.localhost') {
-                    Mail::to('info@elrepuntet.es')->send(new NewOrderAdmin($order, $orders_lines));
+                    Mail::to('info@3etern.es')->send(new NewOrderAdmin($order, $orders_lines));
                 }
 
                 \LaravelFacebookPixel::createEvent('PURCHASE', $parameters = []);
@@ -207,7 +261,7 @@ class StripeController extends Controller
 
                 return view("payments.payment_success", [
                     "message" => $response->getMessage(),
-                ]);
+                ]); */
             }
         }
         return redirect('/404');

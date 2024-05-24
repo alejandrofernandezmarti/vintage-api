@@ -19,7 +19,7 @@ class CompraController extends Controller
         $user = Auth::user();
         if ($user) {
             // Obtener las compras del usuario
-            $compras = Compra::where('id_user', $user->id)->get();
+            $compras = Compra::where('email', $user->email)->get();
 
             // Retornar las compras del usuario en forma de recursos
             return CompraResource::collection($compras);

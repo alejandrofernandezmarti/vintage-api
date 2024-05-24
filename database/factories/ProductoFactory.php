@@ -34,8 +34,8 @@ class ProductoFactory extends Factory
             'descripcion' => $this->faker->paragraph(),
             'id_categoria' => \App\Models\Categoria::all()->random()->id,
             'estado' => $this->faker->randomElement(['Grado A', 'Grado B', 'Calidad premium']),
-            'activo' => $this->faker->boolean(10),
-            'vendido' => $this->faker->boolean(0.1),
+            'activo' => 1,
+            'vendido' => 0,
             'tipo' => $tipo,
         ];
     }

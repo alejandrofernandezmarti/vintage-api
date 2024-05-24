@@ -35,7 +35,7 @@ Route::post('/login', [LoginController::class, 'login']);
 
 
 Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'store']);
+Route::post('/register', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
@@ -67,6 +67,8 @@ Route::delete('/compras/{compra}', [CompraController::class, 'destroy']);
 
 // Rutas para el controlador ProductoController
 Route::get('/productos', [ProductoController::class, 'index']);
+Route::get('/productosSelected', [ProductoController::class, 'indexSelected']);
+Route::get('/productosLotes', [ProductoController::class, 'indexLotes']);
 Route::post('/productoCreate', [ProductoController::class, 'store']);
 Route::get('/productos/{producto}', [ProductoController::class, 'show']);
 Route::put('/productos/{producto}', [ProductoController::class, 'update']);

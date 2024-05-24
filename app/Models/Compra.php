@@ -20,7 +20,6 @@ class Compra extends Model
      */
     protected $fillable = [
         'fecha',
-        'metodo_pago',
         'direccion',
         'id_user',
     ];

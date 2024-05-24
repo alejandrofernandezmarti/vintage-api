@@ -37,7 +37,6 @@ class CompraFactory extends Factory
             'codPostal' => $this->faker->randomNumber(5),
             'telefono' => $this->faker->randomNumber(9),
             'nombre' => $this->faker->name,
-            'metodo_pago' => $this->faker->randomElement(['tarjeta', 'paypal', 'contrarrembolso']),
             'id_user' => $user->id,
         ];
     }
