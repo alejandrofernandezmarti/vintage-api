@@ -20,7 +20,7 @@ class NewOrderAdmin extends Mailable
     public $order;
     public $orders_lines;
 
-    public function __construct(Order $order, $orders_lines)
+    public function __construct($order, $orders_lines)
     {
         $this->order = $order;
         $this->orders_lines = $orders_lines;
@@ -29,8 +29,8 @@ class NewOrderAdmin extends Mailable
     public function build()
     {
         return $this->subject('Nuevo pedido')->view('mails.orders.new_order_admin', [
-            "pedido" => $this->order,
-            "lineas" => $this->orders_lines
+            "order" => $this->order,
+            "products" => $this->orders_lines
         ]);
     }
 }

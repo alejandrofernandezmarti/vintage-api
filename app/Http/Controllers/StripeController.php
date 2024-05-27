@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\MailContacto;
 use App\Mail\NewOrder;
+use App\Mail\NewOrderAdmin;
 use App\Models\Compra;
 use App\Models\Pago;
 use App\Models\Producto;
@@ -240,28 +241,25 @@ class StripeController extends Controller
                         $product->save();
                     }
                     $order_line->nombre = $pr->nombre;
+                    $order_line->imagen = $pr->imagenes->url_1;
                     $orders_lines[] = $order_line;
                 }
-
                 Mail::to($order->email)->send(new NewOrder($order,$orders_lines));
-/*
-                if ($_SERVER['HTTP_HOST'] != 'repuntet.localhost') {
-                    Mail::to('info@3etern.es')->send(new NewOrderAdmin($order, $orders_lines));
-                }
 
-                \LaravelFacebookPixel::createEvent('PURCHASE', $parameters = []);
+                Mail::to('alex2000fm@gmail.com')->send(new NewOrderAdmin($order, $orders_lines));
 
+                // limpiar el carrito \Cart::clear();
 
-                \Cart::clear();
-                return view("payments.payment_success", [
-                    "order" => $order->id,
+                return view("order_confirm", [
+                    "order" => $order,
+                    "products" => $orders_lines
                 ]);
             } else {
                 // payment failed: display message to customer
 
                 return view("payments.payment_success", [
                     "message" => $response->getMessage(),
-                ]); */
+                ]);
             }
         }
         return redirect('/404');
