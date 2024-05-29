@@ -28,7 +28,7 @@ class CompraFactory extends Factory
         $user = \App\Models\User::inRandomOrder()->first();
         return [
             'fecha' => $this->faker->date(),
-            'estado' => $this->faker->randomElement(['pendiente', 'completado', 'cancelado']),
+            'estado' => $this->faker->randomElement(['pagado','enviado','cancelado','entregado']),
             'email' => $user->email,
             'importe' => $this->faker->randomFloat(2, 200, 1200),
             'direccion' => $this->faker->address,

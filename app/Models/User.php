@@ -30,6 +30,10 @@ class User extends Authenticatable
         return $this->hasMany(Compra::class, 'id_user');
     }
 
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

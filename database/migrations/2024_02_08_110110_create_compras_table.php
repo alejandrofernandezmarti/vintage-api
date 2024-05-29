@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->string('estado');
+            $table->enum('estado',['pagado','enviado','cancelado','entregado']);
             $table->string('email');
             $table->float('importe');
             $table->string('direccion');

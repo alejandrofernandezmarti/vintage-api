@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AlumnoResource;
-use App\Http\Resources\EmpresaResource;
-use App\Http\Resources\ResponsableResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;

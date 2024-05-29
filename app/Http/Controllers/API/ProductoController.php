@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductoDetail;
 use App\Http\Resources\ProductoResource;
+use App\Models\Categoria;
 use App\Models\ImagenProducto;
 use App\Models\Producto;
 use Illuminate\Http\Request;
@@ -34,8 +35,25 @@ class ProductoController extends Controller
         return new ProductoDetail($producto);
     }
 
+
     public function store(Request $request)
     {
+        $request->validate([
+            'producto.nombre' => 'required|string|max:255',
+            'producto.descripcion' => 'required|string|max:255',
+            'producto.precio_ud' => 'required|numeric',
+            'producto.id_categoria' => 'required|integer|exists:categorias,id',
+            'producto.tipo' => 'required|string',
+            'producto.cantidad' => 'nullable|integer',
+            'producto.estado' => 'required|string|max:255',
+            'base64.url_1' => 'nullable|string',
+            'base64.url_2' => 'nullable|string',
+            'base64.url_3' => 'nullable|string',
+            'base64.url_4' => 'nullable|string',
+            'base64.url_5' => 'nullable|string',
+            'base64.url_6' => 'nullable|string',
+        ]);
+
         $producto = new Producto();
         $producto->nombre = $request['producto.nombre'];
         $producto->descripcion = $request['producto.descripcion'];
@@ -49,18 +67,23 @@ class ProductoController extends Controller
         $producto->save();
 
         $imagen = new ImagenProducto();
-        $imagen->url_1 = $request['imagenes.url_1'];
-        $imagen->url_2 = $request['imagenes.url_2'];
-        $imagen->url_3 = $request['imagenes.url_3'];
-        $imagen->url_4 = $request['imagenes.url_4'];
-        $imagen->url_5 = $request['imagenes.url_5'];
-        $imagen->url_6 = $request['imagenes.url_6'];
+        $imagen->url_1 = $request['base64.url_1'];
+        $imagen->url_2 = $request['base64.url_2'];
+        $imagen->url_3 = $request['base64.url_3'];
+        $imagen->url_4 = $request['base64.url_4'];
+        $imagen->url_5 = $request['base64.url_5'];
+        $imagen->url_6 = $request['base64.url_6'];
         $imagen->producto_id = $producto->id;
         $imagen->save();
 
-        return response()->json(['message' => 'Producto creado exitosamente'], 201);
+        return redirect()->route('admin.dashboard')->with('success', 'Producto actualizado exitosamente.');
     }
 
+    public function create()
+    {
+        $categorias = Categoria::all();
+        return view('admin.createProduct', compact('categorias'));
+    }
 
     public function filtrar(Request $request)
     {
@@ -91,11 +114,38 @@ class ProductoController extends Controller
         $productos = Producto::where('id_categoria', $idCategoria)->where('tipo', 'Box')->get();
         return ProductoResource::collection($productos);
     }
+    public function showAdmin($id)
+    {
+        $producto = new ProductoDetail(Producto::findOrFail($id));
+        $categorias = Categoria::all();
+        $imagenes = ImagenProducto::where('producto_id', $id)->firstOrFail();
+        return view('admin.productDetail', compact('producto','categorias','imagenes'));
+    }
+
     public function update(Request $request, $id)
     {
         $producto = Producto::findOrFail($id);
-        $producto->update($request->all());
-        return new ProductoResource($producto);
+        $producto->nombre = $request->input('nombre');
+        $producto->precio_ud = $request->input('precio_ud');
+        $producto->cantidad = $request->input('cantidad');
+        $producto->id_categoria = $request->input('categoria');
+        $producto->descripcion = $request->input('descripcion');
+        $producto->tipo = $request->input('tipo');
+        $producto->estado = $request->input('estado');
+        $producto->activo = $request->input('activo');
+        $producto->vendido = $request->input('vendido');
+        $producto->update();
+
+        $imagen = ImagenProducto::where('producto_id',$id)->firstOrFail();
+        $imagen->url_1 = $request->input('base64.url_1');
+        $imagen->url_2 = $request->input('base64.url_2');
+        $imagen->url_3 = $request->input('base64.url_3');
+        $imagen->url_4 = $request->input('base64.url_4');
+        $imagen->url_5 = $request->input('base64.url_5');
+        $imagen->url_6 = $request->input('base64.url_6');
+        $imagen->update();
+
+        return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
     public function destroy($id)

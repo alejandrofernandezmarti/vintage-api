@@ -58,4 +58,12 @@ class CompraController extends Controller
         $compra->delete();
         return response()->json(null, 204);
     }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Compra::findOrFail($id);
+        $order->estado = $request->input('status');
+        $order->save();
+
+        return response()->json(['success' => true]);
+    }
 }

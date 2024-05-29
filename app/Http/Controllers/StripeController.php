@@ -217,7 +217,7 @@ class StripeController extends Controller
                 $order->telefono = $request->phone;
                 $order->email = $request->email;
                 $order->codPostal = $request->postalCode;
-                $order->estado = 'realizada';
+                $order->estado = 'pagado';
                 $order->fecha = now();
                 $order->importe = $total['precioTotal'];
                 $order->id_user = 1; // Asume que el usuario está autenticado y quieres guardar su id

@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Resources\ProductoResource;
+use App\Models\Compra;
+use App\Models\Producto;
+use App\Models\ProductoCompra;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AdminController extends Controller
+{
+    public function showLoginForm()
+    {
+        return view('admin.login');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+            if ($user->isAdmin()) {
+                $request->session()->regenerate();
+                return redirect()->intended('/admin/dashboard');
+            } else {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'You are not authorized to access this area.',
+                ])->withInput();
+            }
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
+    }
+
+    public function dashboard() {
+        return view('admin.dashboard');
+    }
+    public function adminCompras(){
+        return view('admin.ordersDashboard');
+    }
+    public function orderHistory()
+    {
+        $orders = Compra::all();
+        return view('admin.ordersHistory', compact('orders'));
+    }
+    public function newOrders()
+    {
+        $orders = Compra::where('estado', 'pagado')->get();
+        return view('admin.newOrders', compact('orders'));
+    }
+    public function orderDetail($id)
+    {
+        $order = Compra::with('productos')->findOrFail($id);
+        $productosInfo = ProductoCompra::where('id_compra', $id)->get();
+
+        $productos = collect();
+
+        foreach ($productosInfo as $productoInfo) {
+            $producto = Producto::find($productoInfo->id_producto);
+            if ($producto) {
+                $productoClone = clone $producto;
+                $productoClone->cantidad = $productoInfo->cantidad;
+                $productoClone->precio_ud = $productoInfo->precio_ud;
+                $productos->push($productoClone);
+            }
+        }
+
+        return view('admin.orderDetail', compact('order', 'productos'));
+    }
+    public function productos()
+    {
+        $productos = Producto::all();
+        $productos = ProductoResource::collection($productos);
+
+        return view('admin.productos', compact('productos'));
+    }
+}
