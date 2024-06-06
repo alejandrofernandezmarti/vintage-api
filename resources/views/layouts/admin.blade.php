@@ -6,51 +6,72 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background: #f2f2f2;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background: #333;
+            color: #282828;
+        }
+        .navbar-nav .nav-link {
+            color: #232323;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ccc;
+        }
         .container {
             margin-top: 50px;
         }
+        .card-2{
+            border: none;
+            border-radius: 15px;
+            background: #fff;
+        }
         .card {
-            border-radius: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: none;
+            border-radius: 15px;
             overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: #fff;
         }
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
         }
         .card-body {
             padding: 30px;
         }
         .card-title {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            color: #343a40;
+            color: #333;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
         }
         .card-text {
+            color: #555;
             font-size: 1rem;
-            color: #6c757d;
+            margin-bottom: 20px;
         }
-        .card-text strong {
-            color: #495057;
-        }
-        .btn-primary {
-            background-color: #17a2b8;
-            border-color: #17a2b8;
+        .btn-custom {
+            background-color: #333;
+            border: none;
             color: #fff;
             padding: 10px 20px;
             font-size: 1rem;
-            border-radius: 50px;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #138496;
-            box-shadow: 0 8px 15px rgba(23, 162, 184, 0.3);
+        .btn-custom:hover {
+            background-color: #555;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
         }
         .text-center {
-            color: #343a40;
+            color: #333;
             font-weight: bold;
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>

@@ -47,9 +47,21 @@ class AdminController extends Controller
     public function adminCompras(){
         return view('admin.ordersDashboard');
     }
-    public function orderHistory()
+
+    public function orderHistory(Request $request)
     {
-        $orders = Compra::all();
+        $query = Compra::query();
+
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                    ->orWhere('ciudad', 'like', "%{$search}%")
+                    ->orWhere('telefono', 'like', "%{$search}%")
+                    ->orWhere('nombre', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $query->get();
         return view('admin.ordersHistory', compact('orders'));
     }
     public function newOrders()

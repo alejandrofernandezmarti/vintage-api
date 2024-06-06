@@ -27,12 +27,13 @@ class ImagenProductoFactory extends Factory
     {
         return [
             'producto_id' => Producto::factory(),
-            'url_1' => $this->faker->imageUrl(),
-            'url_2' => $this->faker->imageUrl(),
-            'url_3' => $this->faker->imageUrl(),
-            'url_4' => $this->faker->imageUrl(),
-            'url_5' => $this->faker->imageUrl(),
-            'url_6' => $this->faker->imageUrl(),
+            'url_1' => "https://source.unsplash.com/random/1000x1000",
+            'url_2' => "https://source.unsplash.com/random/1000x999",
+            'url_3' => "https://source.unsplash.com/random/999x1000",
+            'url_4' => "https://source.unsplash.com/random/980x1000",
+            'url_5' => "https://source.unsplash.com/random/1000x980",
+            'url_6' => "https://source.unsplash.com/random/987x999",
+
         ];
     }
 }

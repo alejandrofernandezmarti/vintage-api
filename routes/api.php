@@ -32,7 +32,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
     Route::get('/user/getInfo', [UserController::class, 'getInfo']);
 });
 Route::post('/login', [LoginController::class, 'login']);
-
+Route::post('/getCarrito',[ProductosCompraController::class,'getCarrito']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
@@ -75,6 +75,7 @@ Route::put('/productos/{producto}', [ProductoController::class, 'update']);
 Route::delete('/productos/{producto}', [ProductoController::class, 'destroy']);
 Route::post('/productosFiltrados', [ProductoController::class, 'filtrar']);
 Route::get('/productosRand', [ProductoController::class, 'obtenerProductosAleatorios']);
+Route::get('/selectedRand', [ProductoController::class, 'obtenerSelectedAleatorios']);
 Route::get('/productos/categoria/{id}', [ProductoController::class, 'productosPorCategoria']);
 
 

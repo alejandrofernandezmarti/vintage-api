@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2 class="text-center mb-4">Detalle del Producto #{{ $producto->id }}</h2>
-        <div class="card">
+        <div class="card-2">
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.productos.update', $producto->id) }}">
                     @csrf

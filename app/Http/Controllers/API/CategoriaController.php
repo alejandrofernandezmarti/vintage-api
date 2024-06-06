@@ -39,7 +39,7 @@ class CategoriaController extends Controller
 
     public function obtenerCategoriasEspecificas()
     {
-        $categorias = Categoria::whereIn('nombre', ['Sudaderas', 'Jerseis', 'Pantalones', 'Chaquetas'])->get();
+        $categorias = Categoria::whereIn('nombre', ['Sudaderas', 'Jerseis', 'Pantalones', 'Chaquetas','Cazadoras','Camisetas','Shorts','Camisas'])->get();
         return response()->json($categorias);
     }
 

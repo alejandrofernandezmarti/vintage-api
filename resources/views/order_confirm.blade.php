@@ -3,92 +3,81 @@
 <head>
     <title>Confirmación de Compra</title>
     <style>
-        body{
-            background-image: url("/public/fondo.jpg") ;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        body {
+            background-color: #f1f1f1;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            padding: 75px;
-            padding-top: 30px !important;
-            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             max-width: 800px;
-            margin: 0 auto;
-            font-family: Arial, sans-serif;
-            background-color: white;
+            margin: 30px auto;
+            padding: 30px;
         }
         .header {
-            text-align: left;
+            text-align: center;
             padding: 20px 0;
         }
         .header h3 {
             margin: 0;
-            font-size: 24px;
+            font-size: 28px;
+            color: #2c3e50;
         }
         .header p {
-            color: #6c757d;
+            color: #7f8c8d;
             margin-top: 10px;
+            font-size: 16px;
         }
-        .table {
+        .table, .summary {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        .table th, .table td {
-            border-bottom: 1px solid #dee2e6;
+        .table th, .table td, .summary th, .summary td {
+            border-bottom: 1px solid #ecf0f1;
             padding: 12px;
             text-align: left;
             vertical-align: middle;
         }
-        .table thead th {
-            background-color: #f8f9fa;
+        .table thead th, .summary thead th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            font-size: 16px;
         }
-        .table .fila {
-            padding: 20px 10px;
+        .table .fila img {
+            border-radius: 10px;
+            width: 70px;
+            height: 70px;
         }
         .summary {
-            width: 100% !important;
             margin-top: 30px;
-            padding-left: 30%;
-            float: right !important;
-            margin-bottom: 30px;
-        }
-        .summary th, .summary td {
-            border-bottom: 1px solid #dee2e6;
-            padding: 12px;
-            text-align: left;
-            vertical-align: middle;
-        }
-        .summary thead th {
-            background-color: #f8f9fa;
+            text-align: right;
         }
         .footer {
-            margin-top: 40px;
-            text-align: left;
-        }
-        .portada{
-            height: 90px;
-            width: 90px;
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
         }
         button {
-            margin-left: 43%;
-            display: inline-block;
+            display: block;
+            width: 200px;
+            margin: 20px auto;
             padding: 10px 20px;
-            margin-top: 20px;
             font-size: 16px;
             color: white;
-            background-color: #2a2a2a;
+            background-color: #2c3e50;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
         button:hover {
-            background-color: #505050;
-            color: #1c1c1c;
+            background-color: #34495e;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         button a {
             color: white;
@@ -96,11 +85,11 @@
         }
     </style>
 </head>
-<body class="view">
+<body>
 <div class="container">
     <div class="header">
         <h3>CONFIRMACIÓN DEL PEDIDO #{{ $order->id }}</h3>
-        <p class="text-muted">Fecha pedido: {{ $order->fecha }}</p>
+        <p class="text-muted">Fecha pedido: {{ date('d/m/Y', strtotime($order->fecha)) }}</p>
     </div>
 
     <table class="table">
@@ -127,28 +116,26 @@
     <table class="summary">
         <tbody>
         <tr>
-            <th>Direccion de entrega</th>
-            <td class="fila">{{ $order->ciudad }} ,{{ $order->direccion }}</td>
+            <th>Dirección de entrega</th>
+            <td>{{ $order->ciudad }} ,{{ $order->direccion }}</td>
         </tr>
         <tr>
-            <th>Telefono contacto</th>
-            <td class="fila">{{ $order->telefono }}</td>
+            <th>Teléfono de contacto</th>
+            <td>{{ $order->telefono }}</td>
         </tr>
         <tr>
             <th>Total</th>
-            <td class="fila">{{ $order->importe }} EUR</td>
+            <td>{{ $order->importe }} EUR</td>
         </tr>
         </tbody>
-    </table><br>
+    </table>
 
     <div class="footer">
-        <p>Gracias por tu compra, {{ $order->nombre }}, tu pedido ha sido recibido</p>
-    </div>
-    <div class="footer">
+        <p>Gracias por tu compra, {{ $order->nombre }}, tu pedido ha sido recibido.</p>
         <p>Esperamos que disfrutes tu pedido. Si tienes alguna pregunta, no dudes en contactarnos.</p>
     </div>
     <button>
-        <a href="http://localhost:5173/"> Volver al inicio</a>
+        <a href="http://localhost:5173/">Volver al inicio</a>
     </button>
 </div>
 </body>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductoResource;
 use App\Http\Resources\ProductosCompraResource;
+use App\Models\Producto;
 use App\Models\ProductoCompra;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,38 @@ class ProductosCompraController extends Controller
         return new ProductosCompraResource($productoCompra);
     }
 
-    // Agregar un producto a una compra
+    public function getCarrito(Request $request)
+    {
+        $productIds = $request->input('products');
+        $carrito = [];
+
+        foreach ($productIds as $productId) {
+            $product = Producto::find($productId['id']);
+
+            if ($product) {
+                if (($product->tipo === 'Selected' && !$product->vendido && $product->activo) || ($product->tipo === 'Box' && $product->activo)) {
+                    if ($product->nombre === $productId['nombre']){
+                        $carrito[] = [
+                            'id' => $product->id,
+                            'nombre' => $product->nombre,
+                            'precio_ud' => $productId['precio_ud'],
+                            'precio_env' => $product->categoria->precio_env,
+                            'cantidad' => $productId['cantidad'],
+                            'tipo' => $product->tipo,
+                            'imagenes' => [
+                                'url_1' => $product->imagen->url_1
+                            ]
+                        ];
+                    }
+
+                }
+            }
+        }
+
+        return response()->json(['carrito' => $carrito]);
+    }
+
+
     public function store(Request $request, $id_compra)
     {
         $productoCompra = new ProductoCompra();
@@ -36,7 +69,6 @@ class ProductosCompraController extends Controller
         return new ProductosCompraResource($productoCompra);
     }
 
-    // Eliminar un producto de una compra
     public function destroy($id_compra, $id_producto)
     {
         $productoCompra = ProductoCompra::where('id_compra', $id_compra)

@@ -19,12 +19,12 @@ class ProductoController extends Controller
     }
     public function indexLotes()
     {
-        $productos = Producto::where('tipo', 'Box')->paginate(16);
+        $productos = Producto::where('tipo', 'Box')->where('activo', true)->paginate(16);
         return ProductoResource::collection($productos);
     }
     public function indexSelected()
     {
-        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->get();
+        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->get();
         return ProductoResource::collection($productos);
     }
 
@@ -104,7 +104,12 @@ class ProductoController extends Controller
 
     public function obtenerProductosAleatorios()
     {
-        $productos = Producto::inRandomOrder()->limit(8)->get();
+        $productos = Producto::where('activo', true)->where('vendido', false)->where('tipo', 'Box')->inRandomOrder()->limit(7)->get();
+        return ProductoResource::collection($productos);
+    }
+    public function obtenerSelectedAleatorios()
+    {
+        $productos = Producto::where('activo', true)->where('vendido', false)->where('tipo', 'Selected')->inRandomOrder()->limit(7)->get();
         return ProductoResource::collection($productos);
     }
 

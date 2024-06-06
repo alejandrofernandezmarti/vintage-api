@@ -64,7 +64,7 @@
 <div class="container">
     <div class="header">
         <h3>PEDIDO #{{ $order->id }}</h3>
-        <p class="text-muted">Fecha pedido: {{ $order->fecha }}</p>
+        <p class="text-muted">Fecha pedido: {{ date('d/m/Y', strtotime($order->fecha)) }}</p>
     </div>
 
     <table class="table">

@@ -9,7 +9,6 @@ use App\Models\Compra;
 use App\Models\Pago;
 use App\Models\Producto;
 use App\Models\ProductoCompra;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Omnipay\Omnipay;
@@ -24,6 +23,8 @@ class StripeController extends Controller
     public function newOrder(Request $request){
         $productos = array_map('json_decode', $request->productos);
         $precios = $this->calculadoraPrecios($productos);
+        $email = $request->email ?? null;
+        $id = $request->id ?? null;
         $provincias = [
             "Álava",
             "Albacete",
@@ -78,7 +79,7 @@ class StripeController extends Controller
             "Zamora",
             "Zaragoza"
         ];
-        return view('payment',compact('provincias','productos','precios'));
+        return view('payment',compact('provincias','productos','precios','email','id'));
     }
 
 
@@ -119,19 +120,19 @@ class StripeController extends Controller
             if ($item->tipo == 'Box'){
                 switch (true) {
                     case ($cantidad >= 100):
-                        $precioUnitario *= 0.80; // 20% de descuento
+                        $precioUnitario *= 0.80;
                         break;
                     case ($cantidad >= 70):
-                        $precioUnitario *= 0.84; // 16% de descuento
+                        $precioUnitario *= 0.84;
                         break;
                     case ($cantidad >= 50):
-                        $precioUnitario *= 0.88; // 12% de descuento
+                        $precioUnitario *= 0.88;
                         break;
                     case ($cantidad >= 30):
-                        $precioUnitario *= 0.92; // 8% de descuento
+                        $precioUnitario *= 0.92;
                         break;
                     case ($cantidad >= 20):
-                        $precioUnitario *= 0.96; // 4% de descuento
+                        $precioUnitario *= 0.96;
                         break;
                     case ($cantidad <= 10):
                     default:
@@ -150,19 +151,19 @@ class StripeController extends Controller
         if ($producto->tipo == 'Box'){
             switch (true) {
                 case ($cantidad >= 100):
-                    $precioUnitario *= 0.80; // 20% de descuento
+                    $precioUnitario *= 0.80;
                     break;
                 case ($cantidad >= 70):
-                    $precioUnitario *= 0.84; // 16% de descuento
+                    $precioUnitario *= 0.84;
                     break;
                 case ($cantidad >= 50):
-                    $precioUnitario *= 0.88; // 12% de descuento
+                    $precioUnitario *= 0.88;
                     break;
                 case ($cantidad >= 30):
-                    $precioUnitario *= 0.92; // 8% de descuento
+                    $precioUnitario *= 0.92;
                     break;
                 case ($cantidad >= 20):
-                    $precioUnitario *= 0.96; // 4% de descuento
+                    $precioUnitario *= 0.96;
                     break;
                 case ($cantidad <= 10):
                 default:
@@ -220,7 +221,7 @@ class StripeController extends Controller
                 $order->estado = 'pagado';
                 $order->fecha = now();
                 $order->importe = $total['precioTotal'];
-                $order->id_user = 1; // Asume que el usuario está autenticado y quieres guardar su id
+                $order->id_user = $request->id ?? 1;;
                 $order->save();
 
                 //CREAR LINEAS DEL PEDIDO

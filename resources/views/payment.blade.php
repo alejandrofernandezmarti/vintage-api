@@ -12,8 +12,11 @@
                     <h3>Información de contacto</h3>
                     <div class="form-group mt-4">
                         <label for="email"></label>
-                        <input type="email" id="email"  name="email" placeholder="Correo Electrónico" required>
+                        <input type="email" id="email"  name="email" placeholder="{{ $email ?? 'Correo Electrónico' }}" value="{{ $email ?? '' }}" required>
                     </div>
+                    @if(isset($id))
+                        <input type="hidden" name="id" value="{{ $id }}">
+                    @endif
                     <h3 class="mt-5">Dirección de envío</h3>
                     <div class="row">
                         <div class="form-group mt-3 col-12 col-md-6">
