@@ -88,11 +88,24 @@ class AdminController extends Controller
 
         return view('admin.orderDetail', compact('order', 'productos'));
     }
-    public function productos()
+    public function productos(Request $request)
     {
-        $productos = Producto::all();
+        $query = Producto::query();
+
+        // Aplicar filtro de búsqueda por nombre
+        if ($request->has('search') && $request->input('search') != '') {
+            $query->where('nombre', 'like', '%' . $request->input('search') . '%');
+        }
+
+        // Aplicar filtro por tipo
+        if ($request->has('type') && $request->input('type') != '') {
+            $query->where('tipo', $request->input('type'));
+        }
+
+        $productos = $query->get();
         $productos = ProductoResource::collection($productos);
 
         return view('admin.productos', compact('productos'));
     }
+
 }

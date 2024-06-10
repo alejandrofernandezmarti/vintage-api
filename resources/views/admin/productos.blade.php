@@ -45,10 +45,24 @@
             background-color: #138496;
             box-shadow: 0 8px 15px rgba(23, 162, 184, 0.3);
         }
+        .search-bar {
+            margin-bottom: 20px;
+        }
     </style>
 
     <div class="container">
         <h2 class="text-center mb-4">Listado de Productos</h2>
+        <div class="row justify-content-center search-bar">
+            <form action="{{ route('admin.productos.index') }}" method="GET" class="d-flex col-md-8">
+                <input type="text" name="search" class="form-control me-2" placeholder="Buscar por nombre" value="{{ request('search') }}">
+                <select name="type" class="form-control me-2">
+                    <option value="">Filtrar por tipo</option>
+                    <option value="Box" {{ request('type') == 'Box' ? 'selected' : '' }}>Box</option>
+                    <option value="Selected" {{ request('type') == 'Selected' ? 'selected' : '' }}>Selected</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
         <div class="row">
             @foreach($productos as $producto)
                 <div class="col-md-4">
