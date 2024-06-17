@@ -116,7 +116,7 @@ class ProductoController extends Controller
 
     public function productosPorCategoria($idCategoria)
     {
-        $productos = Producto::where('id_categoria', $idCategoria)->where('tipo', 'Box')->get();
+        $productos = Producto::where('id_categoria', $idCategoria)->where('tipo', 'Box')->where('activo', true)->get();
         return ProductoResource::collection($productos);
     }
     public function showAdmin($id)

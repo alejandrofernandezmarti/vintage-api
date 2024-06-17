@@ -84,36 +84,19 @@
                 <p class="card-text"><strong>Email:</strong> {{ $order->email }}</p>
                 <p class="card-text"><strong>Dirección:</strong> {{ $order->direccion }}, {{ $order->ciudad }}, {{ $order->provincia }} - {{ $order->codPostal }}</p>
                 <p class="card-text"><strong>Teléfono:</strong> {{ $order->telefono }}</p>
-                @php
-                    $buttonClass = '';
-                    $buttonText = '';
 
-                    switch ($order->estado) {
-                        case 'pagado':
-                            $buttonClass = 'btn-success';
-                            $buttonText = 'Marcar como preparado';
-                            break;
-                        case 'enviado':
-                            $buttonClass = 'btn-primary';
-                            $buttonText = 'Esperando al repartidor';
-                            break;
-                        case 'cancelado':
-                            $buttonClass = 'btn-danger';
-                            $buttonText = 'Pedido Cancelado';
-                            break;
-                        case 'entregado':
-                            $buttonClass = 'btn-secondary';
-                            $buttonText = 'Pedido Entregado';
-                            break;
-                        default:
-                            $buttonClass = 'btn-secondary';
-                            $buttonText = 'Estado Desconocido';
-                            break;
-                    }
-                @endphp
+                <div class="mb-3">
+                    <label for="status" class="form-label">Cambiar Estado del Pedido</label>
+                    <select id="status" class="form-select">
+                        <option value="pagado" {{ $order->estado == 'pagado' ? 'selected' : '' }}>Pagado</option>
+                        <option value="enviado" {{ $order->estado == 'enviado' ? 'selected' : '' }}>Enviado</option>
+                        <option value="cancelado" {{ $order->estado == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
+                        <option value="entregado" {{ $order->estado == 'entregado' ? 'selected' : '' }}>Entregado</option>
+                    </select>
+                </div>
 
-                <button id="update-status-btn" class="btn {{ $buttonClass }}">
-                    {{ $buttonText }}
+                <button id="update-status-btn" class="btn btn-primary">
+                    Actualizar Estado
                 </button>
             </div>
         </div>
@@ -138,6 +121,7 @@
     <script>
         document.getElementById('update-status-btn').addEventListener('click', function () {
             const orderId = {{ $order->id }};
+            const status = document.getElementById('status').value;
             const updateStatusBtn = this;
 
             fetch(`/admin/orders/${orderId}/update-status`, {
@@ -146,13 +130,13 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ status: 'enviado' })
+                body: JSON.stringify({ status: status })
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.getElementById('order-status').innerText = 'enviado';
-                        updateStatusBtn.innerText = 'Esperando al repartidor';
+                        document.getElementById('order-status').innerText = status;
+                        updateStatusBtn.innerText = 'Estado Actualizado';
                         updateStatusBtn.classList.remove('btn-primary');
                         updateStatusBtn.classList.add('btn-secondary');
                     }

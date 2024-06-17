@@ -46,6 +46,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/productos/{id}', [ProductoController::class, 'update'])->name('admin.productos.update');
     Route::get('/products/create', [ProductoController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductoController::class, 'store'])->name('products.store');
+    Route::post('/admin/orders/{id}/update-status', [CompraController::class, 'updateStatus']);
 });
 
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
