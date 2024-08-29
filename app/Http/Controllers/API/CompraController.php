@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomOrder;
 use App\Http\Resources\CompraResource;
 use App\Models\Compra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CompraController extends Controller
 {
@@ -27,6 +29,18 @@ class CompraController extends Controller
             // Retornar un mensaje de error si el usuario no está autenticado
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
+    }
+    public function customOrder(Request $request)
+    {
+        $pedido = $request->input('pedido');
+        $email = $request->input('email');
+        $telefono = $request->input('telefono');
+
+        // Enviar el correo
+        Mail::to('alejandroonil@hotmail.es')->send(new CustomOrder($pedido, $email, $telefono));
+
+        // Redireccionar con un mensaje de éxito
+        return redirect()->back()->with('success', 'Tu pedido ha sido enviado con éxito.');
     }
 
     // Mostrar una compra específica
