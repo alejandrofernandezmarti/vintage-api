@@ -19,12 +19,12 @@ class ProductoController extends Controller
     }
     public function indexLotes()
     {
-        $productos = Producto::where('tipo', 'Box')->where('activo', true)->paginate(16);
+        $productos = Producto::where('tipo', 'Box')->where('activo', true)->paginate(4);
         return ProductoResource::collection($productos);
     }
     public function indexSelected()
     {
-        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->get();
+        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(4);
         return ProductoResource::collection($productos);
     }
 
