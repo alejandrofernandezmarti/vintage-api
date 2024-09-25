@@ -24,7 +24,7 @@ class ProductoController extends Controller
     }
     public function indexSelected()
     {
-        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(8);
+        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(4);
         return ProductoResource::collection($productos);
     }
 
