@@ -30,61 +30,25 @@ class ProductoController extends Controller
 
     public function boxIndex()
     {
-        try {
-            // Obtener productos de tipo 'Box' que estén activos
-            $productos = Producto::where('tipo', 'Box')
-                ->where('activo', true)
-                ->paginate(4);
+        // Obtener productos de tipo 'Box' que estén activos y en orden aleatorio
+        $productos = Producto::where('tipo', 'Box')
+            ->where('activo', true)
+            ->inRandomOrder() // Ordenar aleatoriamente
+            ->paginate(4);
 
-            // Comprobar si se obtuvieron productos
-            if ($productos->isEmpty()) {
-                return response()->json([
-                    'message' => 'No se encontraron productos de tipo Box.',
-                    'data' => [],
-                ], 404);
-            }
-
-            return response()->json([
-                'message' => 'Productos de tipo Box obtenidos correctamente.',
-                'data' => ProductoResource::collection($productos),
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error al obtener productos de tipo Box.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return ProductoResource::collection($productos);
     }
 
     public function selectIndex()
     {
-        try {
-            // Obtener productos de tipo 'Selected' que no estén vendidos y estén activos
-            $productos = Producto::where('tipo', 'Selected')
-                ->where('vendido', false)
-                ->where('activo', true)
-                ->paginate(4);
+        // Obtener productos de tipo 'Selected' que no estén vendidos y estén activos en orden aleatorio
+        $productos = Producto::where('tipo', 'Selected')
+            ->where('vendido', false)
+            ->where('activo', true)
+            ->inRandomOrder() // Ordenar aleatoriamente
+            ->paginate(4);
 
-            // Comprobar si se obtuvieron productos
-            if ($productos->isEmpty()) {
-                return response()->json([
-                    'message' => 'No se encontraron productos de tipo Selected.',
-                    'data' => [],
-                ], 404);
-            }
-
-            return response()->json([
-                'message' => 'Productos de tipo Selected obtenidos correctamente.',
-                'data' => ProductoResource::collection($productos),
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error al obtener productos de tipo Selected.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return ProductoResource::collection($productos);
     }
 
     public function show($id)
