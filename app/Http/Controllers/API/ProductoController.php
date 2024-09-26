@@ -19,37 +19,67 @@ class ProductoController extends Controller
     }
     public function indexLotes()
     {
-        $productos = Producto::where('tipo', 'Box')->where('activo', true)->paginate(4);
-        return ProductoResource::collection($productos);
+        // Obtener el parámetro 'page' de la solicitud (por defecto 1)
+        $page = $request->query('page', 1);
+        $perPage = 4; // Número de productos por página
+        $offset = ($page - 1) * $perPage;
+
+        // Obtener productos de tipo 'Box', activos, de manera aleatoria, con un límite
+        $productos = Producto::where('tipo', 'Box')
+            ->where('activo', true)
+            ->inRandomOrder()
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
+
+        // Contar el total de productos para saber si hay más
+        $totalProductos = Producto::where('tipo', 'Box')->where('activo', true)->count();
+
+        // Calcular si hay una "siguiente página"
+        $hasMorePages = ($totalProductos > ($offset + $perPage));
+
+        // Generar el link para la siguiente página si es necesario
+        $nextPageUrl = $hasMorePages ? url()->current() . '?page=' . ($page + 1) : null;
+
+        return response()->json([
+            'data' => ProductoResource::collection($productos),
+            'next_page_url' => $nextPageUrl,
+        ]);
     }
     public function indexSelected()
     {
-        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(4);
-        return ProductoResource::collection($productos);
-    }
+        // Obtener el parámetro 'page' de la solicitud (por defecto 1)
+        $page = $request->query('page', 1);
+        $perPage = 4; // Número de productos por página
+        $offset = ($page - 1) * $perPage;
 
-    public function boxIndex()
-    {
-        // Obtener productos de tipo 'Box' que estén activos y en orden aleatorio
-        $productos = Producto::where('tipo', 'Box')
-            ->where('activo', true)
-            ->inRandomOrder() // Ordenar aleatoriamente
-            ->paginate(4);
-
-        return ProductoResource::collection($productos);
-    }
-
-    public function selectIndex()
-    {
-        // Obtener productos de tipo 'Selected' que no estén vendidos y estén activos en orden aleatorio
+        // Obtener productos de tipo 'Selected', no vendidos, activos, de manera aleatoria, con un límite
         $productos = Producto::where('tipo', 'Selected')
             ->where('vendido', false)
             ->where('activo', true)
-            ->inRandomOrder() // Ordenar aleatoriamente
-            ->paginate(4);
+            ->inRandomOrder()
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
 
-        return ProductoResource::collection($productos);
+        // Contar el total de productos para saber si hay más
+        $totalProductos = Producto::where('tipo', 'Selected')
+            ->where('vendido', false)
+            ->where('activo', true)
+            ->count();
+
+        // Calcular si hay una "siguiente página"
+        $hasMorePages = ($totalProductos > ($offset + $perPage));
+
+        // Generar el link para la siguiente página si es necesario
+        $nextPageUrl = $hasMorePages ? url()->current() . '?page=' . ($page + 1) : null;
+
+        return response()->json([
+            'data' => ProductoResource::collection($productos),
+            'next_page_url' => $nextPageUrl,
+        ]);
     }
+
 
     public function show($id)
     {
