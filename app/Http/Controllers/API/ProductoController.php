@@ -17,67 +17,15 @@ class ProductoController extends Controller
         $productos = Producto::paginate(16);
         return ProductoResource::collection($productos);
     }
-    public function indexLotes(Request $request)
+    public function indexLotes()
     {
-        // Obtener el parámetro 'page' de la solicitud (por defecto 1)
-        $page = $request->query('page', 1);
-        $perPage = 4; // Número de productos por página
-        $offset = ($page - 1) * $perPage;
-
-        // Obtener productos de tipo 'Box', activos, de manera aleatoria, con un límite
-        $productos = Producto::where('tipo', 'Box')
-            ->where('activo', true)
-            ->inRandomOrder()
-            ->offset($offset)
-            ->limit($perPage)
-            ->get();
-
-        // Contar el total de productos para saber si hay más
-        $totalProductos = Producto::where('tipo', 'Box')->where('activo', true)->count();
-
-        // Calcular si hay una "siguiente página"
-        $hasMorePages = ($totalProductos > ($offset + $perPage));
-
-        // Generar el link para la siguiente página si es necesario
-        $nextPageUrl = $hasMorePages ? url()->current() . '?page=' . ($page + 1) : null;
-
-        return response()->json([
-            'data' => ProductoResource::collection($productos),
-            'next_page_url' => $nextPageUrl,
-        ]);
+        $productos = Producto::where('activo', true)->where('vendido', false)->where('tipo', 'Box')->inRandomOrder()->limit(7)->get();
+        return ProductoResource::collection($productos);
     }
-    public function indexSelected(Request $request)
+    public function indexSelected()
     {
-        // Obtener el parámetro 'page' de la solicitud (por defecto 1)
-        $page = $request->query('page', 1);
-        $perPage = 4; // Número de productos por página
-        $offset = ($page - 1) * $perPage;
-
-        // Obtener productos de tipo 'Selected', no vendidos, activos, de manera aleatoria, con un límite
-        $productos = Producto::where('tipo', 'Selected')
-            ->where('vendido', false)
-            ->where('activo', true)
-            ->inRandomOrder()
-            ->offset($offset)
-            ->limit($perPage)
-            ->get();
-
-        // Contar el total de productos para saber si hay más
-        $totalProductos = Producto::where('tipo', 'Selected')
-            ->where('vendido', false)
-            ->where('activo', true)
-            ->count();
-
-        // Calcular si hay una "siguiente página"
-        $hasMorePages = ($totalProductos > ($offset + $perPage));
-
-        // Generar el link para la siguiente página si es necesario
-        $nextPageUrl = $hasMorePages ? url()->current() . '?page=' . ($page + 1) : null;
-
-        return response()->json([
-            'data' => ProductoResource::collection($productos),
-            'next_page_url' => $nextPageUrl,
-        ]);
+        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(4);
+        return ProductoResource::collection($productos);
     }
 
 
