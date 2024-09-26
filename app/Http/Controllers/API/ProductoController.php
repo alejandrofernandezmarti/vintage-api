@@ -28,6 +28,16 @@ class ProductoController extends Controller
         return ProductoResource::collection($productos);
     }
 
+    public function boxIndex()
+    {
+        $productos = Producto::where('tipo', 'Box')->where('activo', true)->paginate(4);
+        return ProductoResource::collection($productos);
+    }
+    public function selectIndex()
+    {
+        $productos = Producto::where('tipo', 'Selected')->where('vendido', false)->where('activo', true)->paginate(4);
+        return ProductoResource::collection($productos);
+    }
 
     public function show($id)
     {

@@ -78,6 +78,9 @@ Route::get('/productosRand', [ProductoController::class, 'obtenerProductosAleato
 Route::get('/selectedRand', [ProductoController::class, 'obtenerSelectedAleatorios']);
 Route::get('/productos/categoria/{id}', [ProductoController::class, 'productosPorCategoria']);
 
+Route::get('/selectIndex', [ProductoController::class, 'boxIndex']);
+Route::get('/boxIndex', [ProductoController::class, 'selectIndex']);
+
 
 // Rutas para el controlador ProductosCompraController
 Route::get('/compras/{id_compra}/productos', [ProductosCompraController::class, 'index']);
