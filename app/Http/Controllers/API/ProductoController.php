@@ -17,7 +17,7 @@ class ProductoController extends Controller
         $productos = Producto::paginate(16);
         return ProductoResource::collection($productos);
     }
-    public function indexLotes()
+    public function indexLotes(Request $request)
     {
         // Obtener el parámetro 'page' de la solicitud (por defecto 1)
         $page = $request->query('page', 1);
@@ -46,7 +46,7 @@ class ProductoController extends Controller
             'next_page_url' => $nextPageUrl,
         ]);
     }
-    public function indexSelected()
+    public function indexSelected(Request $request)
     {
         // Obtener el parámetro 'page' de la solicitud (por defecto 1)
         $page = $request->query('page', 1);
